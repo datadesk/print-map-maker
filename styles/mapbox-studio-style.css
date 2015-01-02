@@ -1,0 +1,249 @@
+/* Land use */
+@background: #efebe7;
+@land:#efebe7;
+@forest: #CDD0C2;
+@grass: lighten(@forest, 5%);
+@park:#dee0d5;
+@hospital:#e5ddd8;
+@school: #E3E1EA;
+@stadium: #D9CDC1;
+@beach: #ebe2cd;
+@runway: #BFBEBD;
+@aerodrome: #D6D6D6;
+@building: #e8e4e4;
+@water: #a6bcd3;
+@residential:  @land * 0.98;
+@commercial: @land * 0.97;
+@industrial: @land * 0.96;
+@military: #C5BFB5;
+@parking: darken(@background,3%);
+@place_of_worship: #E3C5C9;
+@admin: #000000;
+
+/* Borders */
+@border: #939597;
+
+/* Places */
+@place_halo: @background;
+@place_text: #757575;
+
+/* Roads, etc. */
+@road: #a7a9ab;
+@road_grid: #c7c8ca;
+@road_text: #757575;
+@rail_line: #c8c8c1;
+@aeroway: #ddd;
+
+// Languages: name (local), name_en, name_fr, name_es, name_de
+@name: '[name_en]';
+Map { background-color: @background; }
+
+// Political boundaries //
+
+#admin[admin_level=2][maritime=0] {
+  line-join: round;
+  line-color: @border;
+  line-width: 1.4;
+  [zoom>=6] { line-width: 2.5; }
+  [zoom>=8] { line-width: 4; }
+  [disputed=1] { line-dasharray: 4,4; }
+}
+
+#admin[admin_level=4][maritime=0][zoom>=11]{
+  line-join: round;
+  line-color: @border;
+  line-width: 3;
+  [disputed=1] { line-dasharray: 2,2; }
+}
+
+// this is a special boundary that adds states for the U.S. only. It is included in the repo. For instruction on adding to your style see the Mapbox example at https://www.mapbox.com/mapbox-studio/source-quickstart/
+
+#us-st-dtl[zoom>=4][zoom<=10]{
+  line-color: @border;
+  line-width: 1.5;
+  line-join:round;
+  [zoom>=8] { line-width: 3; }
+ }
+
+// Water Features //
+#water {
+  polygon-fill: @water;
+  polygon-gamma: 0.6;
+}
+
+#waterway {
+  [type='river'],
+  [type='canal'] {
+    line-color: @water;
+    line-cap: round;
+    line-join: round;
+    line-width: 1;
+    [zoom>=13] { line-width: 2; }
+    [zoom>=14] { line-width: 3; }
+    [zoom>=16] { line-width: 4; }
+  }
+  [type='stream'] {
+    line-color: @water;
+    line-width: 0.5;
+    [zoom>=14] { line-width: 1; }
+    [zoom>=16] { line-width: 2; }
+    [zoom>=18] { line-width: 3; }
+  }
+}
+
+// land use //
+#landuse {
+  [class='park'] { polygon-fill: @park; }
+  [class='cemetery'] { polygon-fill: @grass; }
+  [class='hospital'] { polygon-fill: @hospital;}
+  [class='school'] { polygon-fill: @school; }
+  [type='school']{ polygon-fill: @school; }
+  [class='kindergarten']{ polygon-fill: @school; }
+  [class='arena']{ polygon-fill: @stadium; }
+  [type='beach']{ polygon-fill: @beach; }
+  [type='commercial']{ polygon-fill: @commercial; }
+  [class='forest']{ polygon-fill: @forest; }
+  [type='military']{ polygon-fill: @military; }
+  [class='parking']{ polygon-fill: @parking; }
+  [class='pedestrian']{ polygon-fill: @parking*0.97; }
+  [class='place_of_worship']{ polygon-fill: @place_of_worship; }
+  [class='sports_center']{ polygon-fill: @stadium; }
+  [type='playground']{ polygon-fill: @grass; }
+  [class='swimming pool']{ polygon-fill: @water; }
+  [class='wood'] { polygon-fill: @forest;}
+  [type='village_green']{ polygon-fill: @park; }
+  [type='common']{ polygon-fill: @park; }
+  [type='garden']{ polygon-fill: @park; }
+  [type='golf_course']{ polygon-fill: @park; }
+  [type='grass']{ polygon-fill: @grass; }
+  [type='recreation_ground']{ polygon-fill: @park; }
+  [type='grass']{ polygon-fill: @grass; }
+}
+
+/* Buildings - use to give the buildings depth
+#building[zoom>13]{
+  polygon-fill: @building;
+  line-color:darken(@building,5); 
+  line-width:0.8;
+  [zoom>14]{
+    building-fill: @building;
+    building-height: 1; 
+  }
+  [zoom>15]{
+    building-fill: @building;
+    building-height: 2; 
+  }
+}
+*/
+
+// Roads & Railways //
+#tunnel { opacity: 0.5; }
+
+#road,
+#tunnel,
+#bridge {
+    line-color: @road_grid;
+    /* use to add railroads
+	[class='major_rail']{
+    [zoom>=0]{line-width: 0;}
+    [zoom>=13] { 
+      ::case {
+        line-color: @road_grid;
+        line-width: 4.5;
+        line-dasharray: 1.5,12;
+      }
+      ::fill {
+      line-width: 1.5;
+      line-color: @road_grid;
+      }
+    }
+   }
+	*/
+   [class='motorway']{
+     line-join: round;
+     [zoom>=0] { line-width: 2;}
+     [zoom>=9] { line-color: @road;}
+     [zoom>=10] { line-width: 4;}
+     [zoom>=11] { line-width: 4; }
+     [zoom>=12] { line-width: 4.5; }
+     [zoom>=13] { line-width: 4.5; }
+     [zoom>=14] { line-width: 6; }
+     [zoom>=15] { line-width: 6.8; }
+     [zoom>=16] { line-width: 9; }
+   }
+   [class='motorway_link']{
+     [zoom>=0] { line-width: 0;}
+     [zoom>=14] { line-width: 3; line-color: @road;}
+     [zoom>=15] { line-width: 3; }
+     [zoom>=16] { line-width: 6; }
+     }
+   [class='main'] {
+     [zoom>=0] { line-width: 0; }
+     [zoom>=7] { line-width: 0.35; line-color: @road; }
+     [zoom>=10] { line-width: 0.6; }
+     [zoom>=11] { line-width: 1; }
+     [zoom>=12] { line-width: 1.2; }
+     [zoom>=14] { line-width: 3; }
+     [zoom>=15] { line-width: 3; }
+     [zoom>=16] { line-width: 3; }
+   }
+   [class='street']{
+     [zoom>=0] { line-width: 0; }
+     [zoom>=12] { line-width: 0.6; }
+     [zoom>=13] { line-width: 1; }
+     [zoom>=14] { line-width: 1.95; }
+     [zoom>=15] { line-width: 1.95; }
+     [zoom>=15] { line-width: 1.95; }
+     [zoom>=16] { line-width: 1.95; }
+   }
+   [class='street_limited'] {
+     [zoom>=0] { line-width: 0; }
+     [zoom>=13] { line-width: 1; }
+     [zoom>=14] { line-width: 1.95; }
+     [zoom>=15] { line-width: 1.95; }
+     [zoom>=16] { line-width: 1.95; }
+   }
+   [class='street_limited'] { line-dasharray: 4,1; }
+     [class='service'][zoom>15] {
+     line-join:round;
+     #road { line-cap: round; }
+     #tunnel { line-dasharray:3,2; }
+     line-color: @road_grid;
+     line-width:1.8; 
+     [zoom>=16] { line-width:2.4; }
+   }
+   [class='path'][zoom>15] {
+     line-color: @road_grid;
+     line-cap: butt;
+     line-dasharray: 4,2;
+     line-width:1.5; 
+    
+   }
+ }
+
+
+
+#aeroway[zoom>9]{
+  line-color: @aeroway;
+  line-cap:butt;
+  line-join:miter;
+  [type='runway'] {
+    [zoom=10]{ line-width:2; }
+    [zoom=11]{ line-width:4; }
+    [zoom=12]{ line-width:6; }
+    [zoom=13]{ line-width:10; }
+    [zoom=14]{ line-width:14; }
+    [zoom=15]{ line-width:22; }
+    [zoom=16]{ line-width:26; }
+  }
+  [type='taxiway']{
+    [zoom=10]{ line-width:0.4; }
+    [zoom=11]{ line-width:0.4; }
+    [zoom=12]{ line-width:0.4; }
+    [zoom=13]{ line-width:2; }
+    [zoom=14]{ line-width:3; }
+    [zoom=15]{ line-width:6; }
+    [zoom=16]{ line-width:6; }
+  }
+}
+

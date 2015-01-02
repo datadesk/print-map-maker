@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>
+			Print map maker
+		</title>
+		<meta charset="utf-8">
+		<meta name="description" content="A tool to make print maps from mapbox tiles">
+		<meta name="author" content="Len de Groot">
+		<script type="text/javascript">
+			window.L_PREFER_CANVAS = true;
+		</script>
+		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js' type="text/javascript"></script>
+		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' type="text/css">
+		<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js' type="text/javascript"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+		<script type="text/javascript" src="js/jquery.geocodify.js"></script>
+		<link rel="stylesheet" href="styles/jquery.geocodify.css" type="text/css">
+		
+		<style type="text/css" media="screen">
+
+		#map_1col{width:330px; height:700px;}
+		#map_2col{width:699px; height:1200px;}
+		#map_3col{width:1065px; height:1200px;}
+		#map_4col{width:1434px; height:1200px;}
+		#map_web{width:1300px; height:731px;}
+
+		input.geocodify {
+			width:275px;
+			font-size: inherit;
+			line-height: inherit;
+			padding: 2px 2px;
+		}
+		input:focus {
+			border: 1px solid #2262CC;
+		}
+		.leaflet-control-attribution{display:none;}
+		.header{
+			text-transform: uppercase; 
+			font-weight:bold; 
+			font-family:Arial; 
+			font-size:12px;}
+
+		</style>
+	</head>
+	<body style="padding:15px">
+		<h1>
+			Print map maker
+		</h1>
+		<form>
+			<label for="mapPicker">1. Choose a base map</label> 
+			<select id="mapPicker">
+				
+				<!-- Place you map styles here. You can have as many or as few as you can afford. -->
+				<option value="latimesmapping.f3da9821">
+					Flat World
+				</option>
+				<option value="latimesmapping.e12be540">
+					Relief World
+				</option>
+			</select> 
+			<br>
+			<br>
+			<label for="address">2. Search</label> 
+			<input class="geocodify" type="text" id="address" placeholder="Enter a complete address"> 
+			<input type="button" onclick="findAddress()" id="addressBtn" value="GO">
+			<br>
+			<br>
+			<label for="lat">... Or enter Latitude:</label>
+			<input class="geocodify" type="text" id="lat" style="width:100px; padding: 2px 2px;" placeholder="34.052010">
+			<label for="lon">&nbsp; Longitude:</label> 
+			<input class="geocodify" type="text" id="lon" style="width:100px; padding: 2px 2px;" placeholder="-118.245796">
+			<input type="button" onclick="findLatLon()" id="latLonBtn" value="GO">
+			<br>
+			<br>
+			<label>3. If you want to add GeoJSON data to your map, paste it below.</label>
+			<br>
+			<br>
+			<textarea class="geocodify" id="addJson" rows="8" cols="60"></textarea><br>
+			<input type="button" onclick="addJsonFeature()" id="addJsonBtn" value="ADD GeoJSON">
+			<br>
+			<br>
+			<label>4. Adjust your zoom then click the "Save PNG" button.</label>
+			
+		</form>
+		<div id="col1">
+			<p class="header">
+				1 col map <input type="button" name="map_1col" value="Save PNG" onclick="gatherinfo(map_1col)">
+			</p>
+			<div id="map_1col"></div>
+		</div>
+		<div id="col2">
+			<p class="header">
+				2 col map <input type="button" name="map_2col" value="Save PNG" onclick="gatherinfo(map_2col)">
+			</p>
+			<div id="map_2col"></div>
+		</div>
+		<div id="col3">
+			<p class="header">
+				3 col map <input type="button" name="map_3col" value="Save PNG" onclick="gatherinfo(map_3col)">
+			</p>
+			<div id="map_3col"></div>
+		</div>
+		<div id="col4">
+			<p class="header">
+				4 col map <input type="button" name="map_4col" value="Save PNG" onclick="gatherinfo(map_4col)">
+			</p>
+			<div id="map_4col"></div>
+		</div>
+		<div id="web">
+			<p class="header">
+				large web map <input type="button" name="map_web" value="Save PNG" onclick="gatherinfo(map_web)">
+			</p>
+			<div id="map_web"></div>
+		</div>
+		
+		<div id="images"></div>
+		
+		<script type="text/javascript">
+
+		document.getElementById('mapPicker').addEventListener('change',function(){
+			 changeTiles(this.value);
+		});
+
+		// Provide access token
+		// Requires an API key that you generate from your Mapbox account. Find yours here https://www.mapbox.com/account/apps/
+		L.mapbox.accessToken = 'YOUR API KEY';
+
+		// Create maps in the divs
+		var map_1col = L.mapbox.map('map_1col');
+		var map_2col = L.mapbox.map('map_2col');
+		var map_3col = L.mapbox.map('map_3col');
+		var map_4col = L.mapbox.map('map_4col');
+		var map_web = L.mapbox.map('map_web');
+		
+		
+		map_1col.scrollWheelZoom.disable();
+		map_2col.scrollWheelZoom.disable();
+		map_3col.scrollWheelZoom.disable();
+		map_4col.scrollWheelZoom.disable();
+		map_web.scrollWheelZoom.disable();
+		
+		
+        var lineStyle = {'color':'#cd7139','weight': 4.5,'opacity': 1, 'lineJoin':'round'};
+        var polyStyle = {'color': '#000','weight': 3,'opacity': 0.65,'fillOpacity': 0, 'lineJoin':'round'};
+        var pointStyle = { radius: 10.5, fillColor: '#cd7139',color: '#fff',weight: 1,opacity: 0.3,fillOpacity: 0.8};
+			
+		var instructText='<label ><strong>1. Right-click the image below to save/download.<\/strong><\/label><br/><br/><label >2. Change the resolution to 216 dpi without resampling and save as a TIFF.<\/label><br/><br/><label >3. Embed in your Adobe Illustrator document.<\/label><br/><br/><label >4. Add "Mapbox, OpenStreetMap" to your source.<\/label><br/><br/>'
+
+		var geocoder = L.mapbox.geocoder('mapbox.places-v1');
+
+		function changeTiles(value){
+			L.mapbox.tileLayer(value).addTo(map_1col);
+			L.mapbox.tileLayer(value).addTo(map_2col);
+			L.mapbox.tileLayer(value).addTo(map_3col);
+			L.mapbox.tileLayer(value).addTo(map_4col);
+			L.mapbox.tileLayer(value).addTo(map_web);
+		}
+
+		changeTiles('latimesmapping.62bfb037');
+
+		// add miles scale to map
+		L.control.scale().addTo(map_1col);
+		L.control.scale().addTo(map_2col);
+		L.control.scale().addTo(map_3col);
+		L.control.scale().addTo(map_4col);
+		L.control.scale().addTo(map_web);
+
+		geocoder.query('los angeles, CA', showMap);
+
+		function findAddress(){
+			var getInput = document.getElementById('address').value;
+			geocoder.query(getInput, showMap);
+		}
+
+		// grab the lat long values and adjust all the maps
+		function findLatLon(){
+			var getLat = document.getElementById('lat').value;
+			var getLon = document.getElementById('lon').value;
+			map_1col.setView([getLat, getLon], 10);
+			map_2col.setView([getLat, getLon], 10);
+			map_3col.setView([getLat, getLon], 10);
+			map_4col.setView([getLat, getLon], 10);
+			map_web.setView([getLat, getLon], 10);
+		}
+
+		function showMap(err, data) {
+		// Fit the map bounds to an area or zooming to a point.
+		if (data.lbounds) {
+			map_1col.fitBounds(data.lbounds);
+			map_2col.fitBounds(data.lbounds);
+			map_3col.fitBounds(data.lbounds);
+			map_4col.fitBounds(data.lbounds);
+			map_web.fitBounds(data.lbounds);
+		} else if (data.latlng) {
+			map_1col.setView([data.latlng[0], data.latlng[1]], 13);
+			map_2col.setView([data.latlng[0], data.latlng[1]], 13);
+			map_3col.setView([data.latlng[0], data.latlng[1]], 13);
+			map_4col.setView([data.latlng[0], data.latlng[1]], 13);
+			map_web.setView([data.latlng[0], data.latlng[1]], 13);
+		}
+		}   
+
+		$("#address").geocodify({
+			onSelect: function (result) {
+				console.log(result);
+			}
+		});
+
+		function addJsonFeature(){
+			var getData = document.getElementById('addJson').value;
+			
+			var jsonData = JSON.parse(getData);
+						
+			var jsonLayer1 = new L.geoJson(jsonData,{
+				style: function(feature) {return addStyle(feature);},
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyle);
+					}
+			}).addTo(map_1col);
+			
+			var jsonLayer2 = new L.geoJson(jsonData,{
+				style: function(feature) {return addStyle(feature);},
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyle);
+					}
+			}).addTo(map_2col);
+			
+			
+			var jsonLayer3 = new L.geoJson(jsonData,{
+				style: function(feature) {return addStyle(feature);},
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyle);
+					}
+			}).addTo(map_3col);
+			
+			var jsonLayer4 = new L.geoJson(jsonData,{
+				style: function(feature) {return addStyle(feature);},
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyle);
+					}
+			}).addTo(map_4col);
+			
+			var jsonLayerW = new L.geoJson(jsonData,{
+				style: function(feature) {return addStyle(feature);},
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker(latlng, pointStyle);
+					}
+			}).addTo(map_web);
+			
+			
+			function addStyle(feature){
+	        switch (feature.geometry.type) {
+				case 'MultiPolygon': return polyStyle;
+	            case 'Polygon': return polyStyle;
+				case 'MultiLineString': return lineStyle;
+	            case 'LineString': return lineStyle;
+	            case 'Point': return pointStyle;
+				case 'MultiPoint': return pointStyle;
+			}}
+			
+		}
+
+		
+
+		function gatherinfo(id){
+
+			leafletImage(id, doImage);
+
+			function doImage(err, canvas) {
+			
+				if (document.getElementById('newInstructions')) {
+					//do nothing
+				} else {
+					var newInstructions=document.createElement('p');
+					newInstructions.id ='newInstructions';
+					newInstructions.innerHTML =instructText;
+					document.body.appendChild(newInstructions);
+				}
+				
+				var img = document.createElement('img');
+				var dimensions = id.getSize();
+				img.width = dimensions.x;
+				img.height = dimensions.y;
+				img.src = canvas.toDataURL();
+			
+				if (document.getElementById('newImg')) {
+					document.getElementById('newImg').innerHTML ='';
+					document.getElementById('newImg').appendChild(img);
+				} else {
+					var newImg=document.createElement('div');
+					newImg.id ='newImg';
+					newImg.innerHTML ='';
+					document.body.appendChild(newImg);
+					document.getElementById('newImg').appendChild(img);
+				}
+				window.scrollTo(0,document.body.scrollHeight);
+			}
+		}
+			
+		// add enter key functionality
+		var go = document.getElementById("addressBtn");
+		var txt = document.getElementById("address");
+
+		txt.addEventListener("keypress", function() {
+			if (event.keyCode == 13) go.click();
+		});
+
+		</script>
+	</body>
+</html>
