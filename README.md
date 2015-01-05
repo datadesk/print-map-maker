@@ -18,17 +18,29 @@ Print map maker pulls in a global map generated from custom vector tiles created
 
 [Geocodify](https://github.com/datadesk/jquery-geocodify) is used to autocomplete the address field and Mapbox's geocoder re-centers the map to the location. These can be adjusted or eliminated based on your needs. 
 
-An image is generated using the [leaflet-image](https://github.com/mapbox/leaflet-image) plugin and appears at the bottom of your page. The user downloads the image and resizes it in the image editing program of their choice.   
+An image is generated using the [leaflet-image](https://github.com/mapbox/leaflet-image) plugin and appears at the bottom of your page. Download the image and resize it an image editing program.   
 
 
 ### Getting started
 
-Download the zip file and expand it on your computer. All of the files you need are in the folder. 
+Clone the repo to your computer. You can either download it as a ZIP file or use the command line.
 
-Download and install [Mapbox Studio](https://www.mapbox.com/mapbox-studio/). 
+Swap "YOUR API KEY" in the index.html file with your Deafult Public Token from Mapbox. You can find it here (https://www.mapbox.com/account/apps/) when you set up an account. Then replace it here:
+
+    L.mapbox.accessToken = 'YOUR API KEY';
+
+Next you will need a map layer. Download and open [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) and create a new [style](https://www.mapbox.com/mapbox-studio/style-quickstart/). You don't need to customize yet. Just make a new style, save it and upload it. Mapbox studio will generate a style name that looks similar to this: "yourusername.f3da9821" Replace it here:
+
+	<option value="latimesmapping.f3da9821">
+		Flat World
+	</option>
+
+When you edit your style and re-upload, the changes will overwrite Each map style you create can be added as an additional option.
+
+Open the index.html file in a browser and you're ready to test.
 
 
-### Good things come in threes
+### Sizing: Multiples of three
 
 If you plan to use this for print newspaper production, it helps to think of everything in multiples of three.
 
