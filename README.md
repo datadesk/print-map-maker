@@ -60,7 +60,7 @@ The tool generates a 72 ppi image, which translates to 72 dpi for print folk.  W
 
 ### Customizing map tiles
 
-Customizing map features works the same way. If your streets are 1 pt wide, make them 3 points wide in the CartoCSS and they will scale back down in the final image.  The example streets below end up .65 pt wide. You can also change appearance by zoom level.
+Customizing map features works the same way. If your streets are 1 pt wide, make them 3 points wide in the CartoCSS styles and they will scale back down in the final image.  The example streets below end up .65 pt wide. You can also change appearance by zoom level.
 
     [class='street']{
       [zoom>=0] { line-width: 0; }
@@ -73,7 +73,7 @@ Customizing map features works the same way. If your streets are 1 pt wide, make
 
 Custom map styles require a subscription to Mabox. A free subscription will get you one style. Five dollars per month will get you three and $49 per month will get you 10. That may seem like a lot but it's worth it considering for the production time saved. 
 
-I have include a simplified set of styles to get you started. Open the Styles folder and then open mapbox-studio-style in a text editor. These are the map styles written in CartoCSS, which is similar to the styling used in HTML pages. 
+A simplified set of styles is included. Open the Styles folder and then open mapbox-studio-style in a text editor. These are the map styles written in CartoCSS, which is similar to the styling used in HTML pages. 
 
 In Mapbox Studio, create a new project based on OSM bright and take note of the style sheet on the left. Copy and paste the styles from the open document and replace the styles in Mapbox Studio. Save the project and you are ready to start customizing to match your styles. Experiment. You can always re-paste the original if something gets broken.
 
