@@ -3,9 +3,9 @@ Print map maker
 
 A tool to generate print maps from Mapbox tiles
 
-![Example image with GeoJSON boundaries added](img/example-with-geojson.jpg)
+![Photograph of a printed map made with the tool.](img/example2.jpg)
 
-*Example image of Downtown Los Angeles with GeoJSON boundaries added.*
+*Photograph of a printed map.*
 
 One of the main bottlenecks for print map production is the need to find and scan map images and trace a vector version. Print map maker will let you generate a map image with sufficient resolution to reproduce in print, based on your map styles. Simply enter an address or lat/lon coordinates and the map will center on your location. You can even add a GeoJSON layer to the map.
 
@@ -35,7 +35,7 @@ Next you will need a map layer. Download and open [Mapbox Studio](https://www.ma
 		Flat World
 	</option>
 
-When you edit your style and re-upload, the changes will overwrite Each map style you create can be added as an additional option.
+When you edit your style and re-upload, the changes will overwrite so your style should still work. Each map style you create can be added as an additional option.
 
 Open the index.html file in a browser and you're ready to test.
 
@@ -78,6 +78,8 @@ A simplified set of styles is included. Open the Styles folder and then open map
 In Mapbox Studio, create a new project based on OSM bright and take note of the style sheet on the left. Copy and paste the styles from the open document and replace the styles in Mapbox Studio. Save the project and you are ready to start customizing to match your styles. Experiment. You can always re-paste the original if something gets broken.
 
 ### The GeoJSON layer
+![Example image with GeoJSON boundaries added](img/example-with-geojson.jpg)
+*Example image of Downtown Los Angeles with GeoJSON boundaries added.*
 
 To add boundary, line or point layers paste properly formatted GeoJSON into the field and click to ADD GeoJSON. It automatically applies styles for polygons, lines and points and adds them to all the maps. You can add multiple layers. If you are new to GeoJson learn more at [Wikipedia](http://en.wikipedia.org/wiki/GeoJSON), read the [specification](http://geojson.org/geojson-spec.html) or generate your own at [geojson.io](http://geojson.io/#map=2/20.0/0.0).
 
