@@ -79,7 +79,8 @@ In Mapbox Studio, create a new project based on OSM bright and take note of the 
 
 ### The GeoJSON layer
 ![Example image with GeoJSON boundaries added](img/example-with-geojson.jpg)
-*Example image of Downtown Los Angeles with GeoJSON boundaries added.*
+
+<br/>*Downtown Los Angeles with GeoJSON boundaries added.*
 
 To add boundary, line or point layers paste properly formatted GeoJSON into the field and click to ADD GeoJSON. It automatically applies styles for polygons, lines and points and adds them to all the maps. You can add multiple layers. If you are new to GeoJson learn more at [Wikipedia](http://en.wikipedia.org/wiki/GeoJSON), read the [specification](http://geojson.org/geojson-spec.html) or generate your own at [geojson.io](http://geojson.io/#map=2/20.0/0.0).
 
