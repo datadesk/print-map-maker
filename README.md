@@ -3,9 +3,11 @@ Print map maker
 
 A tool to generate print maps from Mapbox tiles
 
-One of the main bottlenecks for print map production is the need to find and scan map images and trace a vector version. Print map maker will let you generate a map image with sufficient resolution to reproduce in print, based on your map styles. Simply enter an address or lat/lon coordinates and the map will center on your location. You can even add a GeoJSON layer to the map.
+Simple print locator maps are extremely effective storytelling tools, but they can take a long time to produce. Why? Well, to start with, you have to find a reference that is licensed to use, digitize it and redraw the information, which can be a lot of work for an element that is 2 inches square.Simple print locator maps are extremely effective storytelling tools, but they can take a long time to produce. Why? Well, to start with, you have to find a reference that is licensed to use, digitize it and redraw the information, which can be a lot of work for an element that is 2 inches square.
 
-It will likely require setup time and learning some new skills. And while it's not perfect, the tool will cut production time dramatically on simple maps. 
+GIS is a solid step in the right direction. And for larger maps, especially those that illustrate complex data, it’s the tool of choice. But that’s a specialized skill that doesn’t exist on every staff.
+
+Print Map Maker allows artists and designers to create quality maps at a resolution high enough to look crisp on newsprint. We’ve been experimenting and publishing with this tool for six months and it has served us remarkably well.
 
 * * *
 
@@ -13,7 +15,7 @@ It will likely require setup time and learning some new skills. And while it's n
 
 ### How it's done
 
-Print map maker pulls in a global map generated from custom vector tiles created in [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) using [OpenStreetMap](http://www.openstreetmap.org/) data and displays them using Mapbox's version of [leaflet.js](http://leafletjs.com/). 
+Print Map Maker pulls in a global map generated from custom vector tiles created in [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) using [OpenStreetMap](http://www.openstreetmap.org/) data and displays them using Mapbox's version of [leaflet.js](http://leafletjs.com/). 
 
 [Geocodify](https://github.com/datadesk/jquery-geocodify) is used to autocomplete the address field and Mapbox's geocoder re-centers the map to the location. These can be adjusted or eliminated based on your needs. 
 
@@ -55,11 +57,11 @@ Here's where you change the sizes in the index.html page
     #map_4col{width:1434px; height:1200px;}
     #map_web{width:1300px; height:731px;}
 
-The tool generates a 72 ppi image, which translates to 72 dpi for print folk.  When the oversized image is downloaded it can be resized (without resampling) from a 72 ppi image to 216 ppi (3x). Save the resulting image and it should fit perfectly in your document. Then add labels and you're done.
+The tool generates a 72-ppi image, which translates to 72 dpi for print folk. When the oversized image is downloaded it can be resized (without resampling) from a 72-ppi image to 216 ppi (3x) in Photoshop. Save the resulting image and it should fit perfectly in your document where labels can be added.
 
 ### Customizing map tiles
 
-Customizing map features works the same way. If your streets are 1 pt wide, make them 3 points wide in the CartoCSS styles and they will scale back down in the final image.  The example streets below end up .65 pt wide. You can also change appearance by zoom level.
+Customizing map features works the same way. If your streets are 1 point wide, make them 3 points wide in Mapbox Studio and they will scale back down in the final image. The streets in the example below end up 0.65 points wide. You can adjust the appearance at each zoom level.
 
     [class='street']{
       [zoom>=0] { line-width: 0; }
@@ -81,11 +83,11 @@ In Mapbox Studio, create a new project based on OSM bright and take note of the 
 
 <br/>*Downtown Los Angeles with GeoJSON boundaries added.*
 
-To add boundary, line or point layers paste properly formatted GeoJSON into the field and click to ADD GeoJSON. It automatically applies styles for polygons, lines and points and adds them to all the maps. You can add multiple layers. If you are new to GeoJson learn more at [Wikipedia](http://en.wikipedia.org/wiki/GeoJSON), read the [specification](http://geojson.org/geojson-spec.html) or generate your own at [geojson.io](http://geojson.io/#map=2/20.0/0.0).
+To add boundary, line or point layers, paste the properly formatted GeoJSON into the field and click to ADD GeoJSON. It automatically applies styles for polygons, lines and points and adds them to all the maps. You can add multiple layers. If you are new to GeoJson learn more at [Wikipedia](http://en.wikipedia.org/wiki/GeoJSON), read the [specification](http://geojson.org/geojson-spec.html) or generate your own at [geojson.io](http://geojson.io/#map=2/20.0/0.0).
 
 
 ### Licensing
-Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below the map when publishing as seen in the photograph of a printed map below. 
+Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below a map when publishing as seen in the photograph of a printed map below. 
 
 ![Photograph of a printed map made with the tool.](img/example2.jpg)
  
