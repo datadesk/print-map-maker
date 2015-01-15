@@ -3,15 +3,14 @@ Print map maker
 
 A tool to generate print maps from Mapbox tiles
 
-![Photograph of a printed map made with the tool.](img/example2.jpg)
-
-*Photograph of a printed map.*
-
 One of the main bottlenecks for print map production is the need to find and scan map images and trace a vector version. Print map maker will let you generate a map image with sufficient resolution to reproduce in print, based on your map styles. Simply enter an address or lat/lon coordinates and the map will center on your location. You can even add a GeoJSON layer to the map.
 
 It will likely require setup time and learning some new skills. And while it's not perfect, the tool will cut production time dramatically on simple maps. 
 
 * * *
+
+![Print map maker in action.](img/print-map-maker-example.gif)
+
 ### How it's done
 
 Print map maker pulls in a global map generated from custom vector tiles created in [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) using [OpenStreetMap](http://www.openstreetmap.org/) data and displays them using Mapbox's version of [leaflet.js](http://leafletjs.com/). 
@@ -78,7 +77,7 @@ A simplified set of styles is included. Open the Styles folder and then open map
 In Mapbox Studio, create a new project based on OSM bright and take note of the style sheet on the left. Copy and paste the styles from the open document and replace the styles in Mapbox Studio. Save the project and you are ready to start customizing to match your styles. Experiment. You can always re-paste the original if something gets broken.
 
 ### The GeoJSON layer
-![Example image with GeoJSON boundaries added](img/example-with-geojson.jpg)
+![Example image with GeoJSON boundaries added](img/print-map-maker-example-2.gif)
 
 <br/>*Downtown Los Angeles with GeoJSON boundaries added.*
 
@@ -86,6 +85,7 @@ To add boundary, line or point layers paste properly formatted GeoJSON into the 
 
 
 ### Licensing
-Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below the map when publishing. 
+Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below the map when publishing as seen in the photograph of a printed map below. 
 
+![Photograph of a printed map made with the tool.](img/example2.jpg)
  
