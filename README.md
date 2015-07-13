@@ -15,18 +15,18 @@ Print Map Maker allows artists and designers to create quality maps at a resolut
 
 ### How it's done
 
-Print Map Maker pulls in a global map generated from custom vector tiles created in [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) using [OpenStreetMap](http://www.openstreetmap.org/) data and displays them using Mapbox's version of [leaflet.js](http://leafletjs.com/). 
+Print Map Maker pulls in a global map generated from custom vector tiles created in [Mapbox Studio](https://www.mapbox.com/mapbox-studio/) using [OpenStreetMap](http://www.openstreetmap.org/) data and displays them using Mapbox's version of [leaflet.js](http://leafletjs.com/).
 
-[Geocodify](https://github.com/datadesk/jquery-geocodify) is used to autocomplete the address field and Mapbox's geocoder re-centers the map to the location. These can be adjusted or eliminated based on your needs. 
+[Geocodify](https://github.com/datadesk/jquery-geocodify) is used to autocomplete the address field and Mapbox's geocoder re-centers the map to the location. These can be adjusted or eliminated based on your needs.
 
-An image is generated using the [leaflet-image](https://github.com/mapbox/leaflet-image) plugin and appears at the bottom of your page. Download the image and resize it an image editing program.   
+An image is generated using the [leaflet-image](https://github.com/mapbox/leaflet-image) plugin and appears at the bottom of your page. Download the image and resize it an image editing program.
 
 
 ### Getting started
 
 Clone the repo to your computer. You can either download it as a ZIP file or use the command line.
 
-Swap "YOUR API KEY" in the index.html file with your Deafult Public Token from Mapbox. You can find it here (https://www.mapbox.com/account/apps/) when you set up an account. Then replace it here:
+Swap "YOUR API KEY" in the index.html file with your Default Public Token from Mapbox. You can find it here (https://www.mapbox.com/account/apps/) when you set up an account. Then replace it here:
 
     L.mapbox.accessToken = 'YOUR API KEY';
 
@@ -72,9 +72,9 @@ Customizing map features works the same way. If your streets are 1 point wide, m
       [zoom>=16] { line-width: 1.95; }
     }
 
-Custom map styles require a subscription to Mabox. A free subscription will get you one style. Five dollars per month will get you three and $49 per month will get you 10. That may seem like a lot but it's worth it considering for the production time saved. 
+Custom map styles require a subscription to Mapbox. A free subscription will get you one style. Five dollars per month will get you three and $49 per month will get you 10. That may seem like a lot but it's worth it considering for the production time saved. 
 
-A simplified set of styles is included. Open the Styles folder and then open mapbox-studio-style in a text editor. These are the map styles written in CartoCSS, which is similar to the styling used in HTML pages. 
+A simplified set of styles is included. Open the Styles folder and then open mapbox-studio-style in a text editor. These are the map styles written in CartoCSS, which is similar to the styling used in HTML pages.
 
 In Mapbox Studio, create a new project based on OSM bright and take note of the style sheet on the left. Copy and paste the styles from the open document and replace the styles in Mapbox Studio. Save the project and you are ready to start customizing to match your styles. Experiment. You can always re-paste the original if something gets broken.
 
@@ -87,7 +87,6 @@ To add boundary, line or point layers, paste the properly formatted GeoJSON into
 
 
 ### Licensing
-Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below a map when publishing as seen in the photograph of a printed map below. 
+Mapbox and OpenStreetMap [license](http://www.openstreetmap.org/copyright) their data/tools. Print map maker strips the credit when the image is generated so a credit must be added below a map when publishing as seen in the photograph of a printed map below.
 
 ![Photograph of a printed map made with the tool.](img/example2.jpg)
- 
